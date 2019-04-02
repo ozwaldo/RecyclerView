@@ -13,7 +13,8 @@ import java.util.LinkedList;
 public class ListaPalabraAdapter extends
         RecyclerView.Adapter<ListaPalabraAdapter.PalabraViewHolder> {
 
-    private final LinkedList<String> listaPalabras;
+
+    final LinkedList<String> listaPalabras;
     private LayoutInflater inflater;
 
     public ListaPalabraAdapter(Context context, LinkedList<String> listaPalabras) {
@@ -46,7 +47,9 @@ public class ListaPalabraAdapter extends
         return listaPalabras.size();
     }
 
-    class PalabraViewHolder extends RecyclerView.ViewHolder {
+    class PalabraViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener {
+
         public final TextView tvPalabra;
         final ListaPalabraAdapter adapter;
 
@@ -54,8 +57,18 @@ public class ListaPalabraAdapter extends
             super(itemView);
             this.tvPalabra = itemView.findViewById(R.id.palabra);
             this.adapter = adapter;
+
+            itemView.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View v) {
+            int posicion = getLayoutPosition();
 
+            String elemento = listaPalabras.get(posicion);
+            listaPalabras.set(posicion, "Click " + elemento);
+
+            adapter.notifyDataSetChanged();
+        }
     }
 }
